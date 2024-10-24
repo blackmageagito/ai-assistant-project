@@ -3,6 +3,7 @@ from gtts import gTTS
 from playsound import playsound
 import os
 import ollama
+import pyttsx3
 
 
 def listen():
@@ -15,10 +16,10 @@ def listen():
 
     try:
         print('Recognizing...')
-        query = r.recognize_google(audio, language='PT-BR')
+        query = r.recognize_google(audio, language='en-IN')
         print(f'User said: {query}')
 
-        if query == 'fechar':
+        if query == 'finish':
             print('finishing...')
             exit()
         # Pass the recognized query to respond()
@@ -33,7 +34,7 @@ def listen():
 
 def respond(query):
     print('Responding...')
-    response = ollama.chat(model='llama2', messages=[
+    response = ollama.chat(model='llama3.2:1b   ', messages=[
     {
         'role': 'user',
         'content': query,
@@ -43,11 +44,25 @@ def respond(query):
     res = response['message']['content']
     print(res)
 
-    tts = gTTS(text=res, lang='en', slow=False)
-    tts.save("pcvoice.mp3")
-    # to start the file from python
-    os.system("start pcvoice.mp3")
+    engine = pyttsx3.init()
 
+    # Get available voices
+    voices = engine.getProperty('voices')
+
+    # Set voice by ID (adjust based on the desired gender or age)
+    # Example: selecting a male voice (adjust based on available IDs)
+    # Set a specific voice by its ID
+    voice_id = 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_ZIRA_11.0'  # Replace with the actual voice ID from the list
+    engine.setProperty('voice', voice_id)
+
+
+    # Optionally, set speech rate and volume
+    engine.setProperty('rate', 175)  # Speed of speech
+    engine.setProperty('volume', 1.0)  # Volume level (0.0 to 1.0)
+
+    # Speak some text
+    engine.say(res)
+    engine.runAndWait()
     # Continue listening after responding
     listen()
 
