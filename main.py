@@ -5,6 +5,14 @@ import os
 import ollama
 import pyttsx3
 
+engine = pyttsx3.init()
+    
+ollama.chat(model='llama3.2:1b', messages=[
+    {
+        'role': 'system',
+        'content': '',
+    },
+    ])
 
 def listen():
     r = sr.Recognizer()
@@ -19,8 +27,11 @@ def listen():
         query = r.recognize_google(audio, language='en-IN')
         print(f'User said: {query}')
 
-        if query == 'finish':
-            print('finishing...')
+        if query == 'bye':
+            res = 'bye bye!'
+            print(res)
+            engine.say(res)
+            engine.runAndWait()
             exit()
         # Pass the recognized query to respond()
         respond(query)
@@ -34,7 +45,7 @@ def listen():
 
 def respond(query):
     print('Responding...')
-    response = ollama.chat(model='llama3.2:1b   ', messages=[
+    response = ollama.chat(model='llama3.2:1b', messages=[
     {
         'role': 'user',
         'content': query,
@@ -44,8 +55,7 @@ def respond(query):
     res = response['message']['content']
     print(res)
 
-    engine = pyttsx3.init()
-
+    
     # Get available voices
     voices = engine.getProperty('voices')
 
@@ -57,7 +67,7 @@ def respond(query):
 
 
     # Optionally, set speech rate and volume
-    engine.setProperty('rate', 175)  # Speed of speech
+    engine.setProperty('rate', 200)  # Speed of speech
     engine.setProperty('volume', 1.0)  # Volume level (0.0 to 1.0)
 
     # Speak some text
