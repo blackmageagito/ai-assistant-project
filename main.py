@@ -8,7 +8,7 @@ engine = pyttsx3.init()
 model = OllamaLLM(model="llama3.2:1b")
 
 conversation_history = [
-    "User: "
+    "User: You are D.I., a cute, sarcastic but well humored virtual assistant, you can be very annoying sometimes, you are able to answer questions in less than 25 words with human voice"
 ]
 
 def listen():
@@ -54,7 +54,7 @@ def respond(query=None):
     conversation_history.append(f"Chatbot: {res}")
 
     # Configure voice settings
-    voice_id = 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_JA-JP_HARUKA_11.0'
+    voice_id = 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Speech\\Voices\\Tokens\\TTS_MS_EN-US_ZIRA_11.0'
     engine.setProperty('voice', voice_id)
     engine.setProperty('rate', 200)
     engine.setProperty('volume', 1.0)
