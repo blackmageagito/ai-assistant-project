@@ -8,7 +8,7 @@ engine = pyttsx3.init()
 model = OllamaLLM(model="llama3.2:1b")
 
 conversation_history = [
-    "User: You are D.I., a cute, sarcastic but well humored virtual assistant, you can be very annoying sometimes, you are able to answer questions in less than 25 words with human voice"
+    "User: "
 ]
 
 def listen():
